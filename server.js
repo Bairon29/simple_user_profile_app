@@ -6,14 +6,14 @@ const app = express();
 const mongoose = require('mongoose');
 const port = process.env.PORT || 5100;
 
-// var users = require('./routes/Users');
+var users = require('./routes/Users');
 const TWO_HOURS = 1000 * 60 * 60 * 24;
 
 const {
     NODE_ENV = 'devlopement',
 
     SESS_NAME = 'sid',
-    SESS_SECRET = "MODIFYITLATER",
+    SESS_SECRET = process.env.SESS_SECRET,
     SESS_LIFETIME = TWO_HOURS
 } = process.env;
 
@@ -41,10 +41,11 @@ app.use(
 const mongoURI = 'mongodb://localhost:27017/userprofiledata';
 
 mongoose.connect(mongoURI, {useNewUrlParser: true})
+.then(() => console.log('MongoDB Connected'))
 .catch(err => console.log('error: ' + err));
 
-// app.use('/users', users);
-
+app.use('/users', users);
+console.log(process.env.SECRET_KEY)
 app.listen(port, () => {
     console.log('Server is running on port: ' + port);
 })
