@@ -32,21 +32,21 @@ const url = process.env.NODE_ENV === 'production' ? "/users/" : "http://localhos
 //         )
 // }
 
-// export const SignInUser = (user_data) => dispatch => {
-//     console.log('action called')
-//     fetch(`${url}login`,{
-//             method: "POST",
-//             headers: {
-//                 'content-type': 'application/json'
-//             },
-//             body: JSON.stringify(user_data)
-//         })
-//         .then(res => res.json())
-//         .then(user => {
-//             localStorage.setItem('Auth', JSON.stringify(user))
-//             dispatch({
-//                 type: LOGIN_USER,
-//                 payload: user
-//             })
-//         }).catch((err)=>console.log(err))
-// }
+export const SignInUser = (user_data) => dispatch => {
+    console.log('action called')
+    fetch(`${url}login`,{
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user_data)
+        })
+        .then(res => res.json())
+        .then(user => {
+            localStorage.setItem('Auth', JSON.stringify(user))
+            dispatch({
+                type: LOGIN_USER,
+                payload: user
+            })
+        }).catch((err)=>console.log(err))
+}
