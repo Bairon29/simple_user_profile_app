@@ -16,6 +16,18 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    provider: {
+        type: String
+    },
+    provider_id: {
+        type: String
+    },
+    token: {
+        type: String
+    },
+    provider_pic: {
+        type: String
+    },
     gender: {
         type: String,
     },
