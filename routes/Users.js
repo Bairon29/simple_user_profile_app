@@ -32,14 +32,14 @@ users.post('/register', (req, res) => {
                 User.create(userData).then(user => {
                     res.json({status: user.email + ' registered'})
                 }).catch(err => {
-                    res.send('error: ' + err);
+                    res.json({error: err});
                 })
             })
         } else{
             res.json({error: 'User already exists'});
         }
     }).catch(err => {
-        res.send('error: ' + err);
+        res.json({error: err});
     })
 });
 
@@ -64,7 +64,7 @@ users.post('/login', (req, res) => {
                 })
                 req.session._id = payload._id;
                 req.session.token = token;
-                res.send(token);
+                res.json({token, email: payload.email});
             } else {
                 res.json({error: "User does not exists"})
             }
@@ -72,8 +72,17 @@ users.post('/login', (req, res) => {
             res.json({error: "User does not exists"})
         }
     }).catch( err => {
-        res.send('error: ' + err);
+        res.json({error: err});
     })
+});
+
+users.post('/hasAccess', (req, res) => {
+    console.log('on access', req.session.token === req.body.token)
+   if(req.session.token === req.body.token){
+       res.json({status: true});
+   } else {
+    res.json({status: false})
+   }
 });
 
 users.get('/profile', (req, res) => {
@@ -84,10 +93,10 @@ users.get('/profile', (req, res) => {
         if(user && user._id === req.session._id){
             res.json(user);
         } else {
-            res.send('User does not exists');
+            res.json({error: "User does not exists"})
         }
     }).catch(err => {
-        res.send('error: ' + err);
+        res.json({error: err});
     })
 })
 module.exports = users;

@@ -5,15 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { Provider } from 'react-redux';
-// import { ConnectedRouter } from 'react-router-redux';
 import { store, history } from './reducers/store';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Router, Route, Link, Switch } from "react-router-dom";
 
 
 ReactDOM.render((
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/" component={App} />
+            <Switch>
+                <Route path="/" component={App} />
+            </Switch>
         </Router>
     </Provider>
 ), document.getElementById('root'));

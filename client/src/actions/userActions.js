@@ -1,6 +1,6 @@
 import { LOGIN_USER, UPDATE_USER } from './types';
-
-const url = process.env.NODE_ENV === 'production' ? "/users/" : "http://localhost:5100/users/"
+import { checkStatus } from '../utils/AuthenticationHelpers';
+import { url } from '../utils/AuthTypes'
 
 // export function SignInUser (user_data) {
 //     return (dispatch) => {
@@ -32,9 +32,9 @@ const url = process.env.NODE_ENV === 'production' ? "/users/" : "http://localhos
 //         )
 // }
 
-export const SignInUser = (user_data) => dispatch => {
+export const SignInUser = (user_data) => {
     console.log('action called')
-    fetch(`${url}login`,{
+    return fetch(`${url}login`,{
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -43,10 +43,12 @@ export const SignInUser = (user_data) => dispatch => {
         })
         .then(res => res.json())
         .then(user => {
-            localStorage.setItem('Auth', JSON.stringify(user))
-            dispatch({
-                type: LOGIN_USER,
-                payload: user
-            })
+            // localStorage.setItem('Auth', JSON.stringify(user))
+            // console.log('user',user);
+            // dispatch({
+            //     type: LOGIN_USER,
+            //     payload: user
+            // })
+            return checkStatus(user);
         }).catch((err)=>console.log(err))
 }

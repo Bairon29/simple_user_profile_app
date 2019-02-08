@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@webassemblyjs/helper-wasm-bytecode": "^1.8.1",
+    "connected-react-router": "^6.2.2",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.6.2",

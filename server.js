@@ -13,7 +13,7 @@ const {
     NODE_ENV = 'devlopement',
 
     SESS_NAME = 'sid',
-    SESS_SECRET = process.env.SESS_SECRET,
+    SESS_SECRET = 'secret',
     SESS_LIFETIME = TWO_HOURS
 } = process.env;
 
@@ -23,7 +23,7 @@ app.use(session({
     name: SESS_NAME,
     resave: false,
     saveUninitialized: false,
-    secret: SESS_SECRET,
+    secret: process.env.SESS_SECRET,
     cookie: {
         maxAge: SESS_LIFETIME,
         sameSite: true,
