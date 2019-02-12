@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SignInUser } from '../actions/userActions'
 import  {wasLoginSuccessful}  from '../utils/AuthenticationHelpers';
-
+import { connect } from 'react-redux'
 class Login extends Component {
   constructor(){
     super();
@@ -29,15 +29,6 @@ class Login extends Component {
       password: ''
     })
     SignInUser(user).then(res => {
-      // if(res){
-      //   let Auth = localStorage.getItem('Auth');
-      //   let JSON_AUTH = JSON.parse(Auth);
-      //   // console.log(JSON_AUTH)
-      //   // console.log('user: ',res)
-      //   if(JSON_AUTH.token === res.token && JSON_AUTH.email === res.email){
-      //     this.props.history.push('/register')
-      //   }
-      // }
       wasLoginSuccessful(res, this.props);
     })
   }
@@ -67,4 +58,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(null, {wasLoginSuccessful})(Login);

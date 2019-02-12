@@ -1,7 +1,6 @@
 import React from 'react';
 import {ERROR_MASSEGE, LOGGED_IN, url } from './AuthTypes';
 import { Redirect } from 'react-router-dom';
-import {withRouter} from "react-router-dom";
 
 export const checkStatus = (user) => {
     var statusMessage = {
