@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { SignInUser } from '../actions/userActions'
 import  {wasLoginSuccessful}  from '../utils/AuthenticationHelpers';
 import { connect } from 'react-redux'
+
+import  loginIcon from './images/login-icon.png'
+import userIcon from './images/username.png'
+import passIcon from './images/password.png'
+
 class Login extends Component {
   constructor(){
     super();
@@ -34,25 +39,46 @@ class Login extends Component {
   }
   render() {
     return (
-        <div>
-          <h1>Login Component</h1>
-          <form onSubmit={this.onSubmit}>
-            <div>
-                <label>Title:</label><br />
-                <input type="text" name="email" 
-                    value={this.state.title} 
-                    onChange={this.onChange} />
+        <div className="auth-session">
+          <div className="auth-container">
+            <div className="auth-title">
+              <h1>SIGN IN</h1>
             </div>
-            <br />
-            <div>
-                <label>Body:</label><br />
-                <input type="password" name="password" 
-                value={this.state.body} 
-                onChange={this.onChange} />
+            <div className="auth-icon">
+              <img src={loginIcon} />
             </div>
-            <br />
-            <button type="submit">Submit</button>
-        </form> 
+            <div className="auth-form">
+              <form onSubmit={this.onSubmit}>
+                <div className="auth-field">
+                    <div className="auth-field-icon">
+                      <img src={userIcon} />
+                    </div>
+                    <div className="auth-field-input">
+                      <input type="text" name="email" 
+                          value={this.state.title} 
+                          placeholder="Sample.Email@sample.com"
+                          onChange={this.onChange}
+                          required />
+                    </div>
+                </div>
+                <div className="auth-field">
+                    <div className="auth-field-icon">
+                      <img src={passIcon} />
+                    </div>
+                    <div className="auth-field-input">
+                      <input type="password" name="password" 
+                          value={this.state.body} 
+                          placeholder="Password"
+                          onChange={this.onChange} 
+                          required />
+                    </div>
+                </div>
+                <div className="auth-submit">
+                  <button type="submit">Login</button>
+                </div>
+              </form> 
+            </div>
+          </div>
         </div>
     );
   }

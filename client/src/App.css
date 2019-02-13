@@ -1,34 +1,155 @@
+/* main container for all components */
 .App {
-  text-align: center;
+  padding: 0;
+  width: 100%; 
+  height: 100%;
+  margin: 0;
+}
+/* h1 margin 0 */
+h1{
+  margin: 0;
+}
+/* the background of the 
+session to login or register */
+.auth-session{
+  margin: 0;
+  padding: 0;
   width: 100%;
-  
+  height: 100vh;
+  background: rgb(164,185,183);
+  background: linear-gradient(to bottom left, rgba(164,185,183,1) 0%, rgba(177,189,188,1) 49%, rgba(237,249,248,1) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* box where all input fields are */
+.auth-session .auth-container{
+  width: 30%;
+  height: 55vh;
+  border: 5px solid rgba(255, 255, 255, .4);
+  box-shadow: 0 30px 40px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  transition-property: width height;
+  transition-duration: .2s;
+}
+/* title of the auth box */
+.auth-session .auth-container .auth-title{
+  background-color: #8ad6cf;
+  border-radius: 5px;
+  outline: none;
+  padding: 16px 46px;
+  position: relative;
+  top: -20px;
+  border: 5px solid rgba(255, 255, 255, .4);
+}
+/* affect of side on :hover
+for the box of all fields */
+.auth-session .auth-container:hover{
+  width: 31%;
+  height: 57vh;
 }
 
-.App-link {
-  color: #61dafb;
+/* make sure the img tag fills
+the box it is in */
+.auth-session .auth-container .auth-icon img,
+.auth-container .auth-form .auth-field-icon img{
+  width: 100%;
+  height: 100%;
+}
+/* box of the main icon */
+.auth-session .auth-container .auth-icon{
+  width: 30%;
+  height: 30%;
+}
+/* box where both the icon 
+and input filed are */
+.auth-container .auth-form .auth-field{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 80%;
+  height: 40px;
+  padding: 5px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+}
+/* box of the field icon */
+.auth-container .auth-form .auth-field .auth-field-icon{
+  width: 30%;
+  height: 100%;
+  padding: 3px;
+  padding-right: 6px;
+  border-right: 1px solid rgba(5, 5, 5, .5)
+}
+/* form container */
+.auth-container .auth-form,
+.auth-container .auth-form form{
+  width: 100%;
+  height: 80%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+/* box of the icon for the input fields */
+.auth-container .auth-form .auth-field .auth-field-icon{
+  width: 30px;
+  height: 30px;
+  margin-right: 3px;
+}
+/* box for input field and input*/
+.auth-container .auth-form .auth-field .auth-field-input{
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+  flex-grow: 1;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* fill the space left with the input field 
+and remove border and highlights */
+.auth-container .auth-form .auth-field .auth-field-input input, 
+.auth-container .auth-form .auth-field .auth-field-input input:focus{
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-size: 120%;
+  font-weight: 0%;
+  background-color: #F5F5F5;
+  color: rgba(5, 5, 5, .7)
 }
+/* set the container for the button 
+same as the input field box */
+.auth-container .auth-form form .auth-submit{
+  width: 82%;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+}
+/* style the button within its box */
+.auth-container .auth-form form .auth-submit button{
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-size: 120%;
+  font-weight: bolder;
+  background-color: #8ad6cf;
+}
+/* remove highlight on focus */
+.auth-container .auth-form form .auth-submit button:focus{
+  border: none;
+  outline: none;
+}
+
+
