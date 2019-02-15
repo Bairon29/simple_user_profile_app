@@ -56,7 +56,7 @@ class Login extends Component {
                     <div className="auth-field-input">
                       <input type="text" name="email" 
                           value={this.state.title} 
-                          placeholder="Sample.Email@sample.com"
+                          placeholder="Sample@sample.com"
                           onChange={this.onChange}
                           required />
                     </div>
