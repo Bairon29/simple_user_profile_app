@@ -20,9 +20,19 @@ session to login or register */
   background: linear-gradient(to bottom left, rgba(164,185,183,1) 0%, rgba(177,189,188,1) 49%, rgba(237,249,248,1) 100%);
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
-
+/* error message */
+.danger{
+  margin: 10px 0;
+}
+/* no message */
+.hide{
+  display: none;
+  width: 0;
+  height: 0;
+}
 /* box where all input fields are */
 .auth-session .auth-container{
   width: 30%;
@@ -112,7 +122,7 @@ and input filed are */
   width: 30%;
   height: 100%;
   padding: 3px;
-  padding-right: 6px;
+  /* padding-right: 6px; */
   border-right: 1px solid rgba(5, 5, 5, .5)
 }
 /* form container */
@@ -149,7 +159,9 @@ and input filed are */
 /* fill the space left with the input field 
 and remove border and highlights */
 .auth-container .auth-form .auth-field .auth-field-input input, 
-.auth-container .auth-form .auth-field .auth-field-input input:focus{
+.auth-container .auth-form .auth-field .auth-field-input input:focus,
+.auth-container .auth-form .auth-field .auth-field-input select, 
+.auth-container .auth-form .auth-field .auth-field-input select:focus{
   height: 100%;
   width: 100%;
   border: none;
@@ -175,7 +187,7 @@ same as the input field box */
 }
 
 /* style the button within its box */
-.auth-container .auth-form .auth-submit button{
+.auth-container .auth-form .auth-submit .button{
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -187,9 +199,20 @@ same as the input field box */
   background-color: #8ad6cf;
 }
 /* remove highlight on focus */
-.auth-container .auth-form .auth-submit button:focus{
+.auth-container .auth-form .auth-submit .button:focus{
   border: none;
   outline: none;
 }
 
 
+/* Loading button */
+.LoaderButton .spinning.glyphicon {
+  margin-right: 7px;
+  top: 2px;
+  animation: spin 1s infinite linear;
+}
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1) rotate(360deg); }
+}
+/* end of Loading button */

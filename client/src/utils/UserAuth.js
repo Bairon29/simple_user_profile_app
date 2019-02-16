@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 export default function (Conmponent) {
     class Authenticate extends Component {
 
@@ -14,13 +15,15 @@ export default function (Conmponent) {
                 action = false
             }
             if(!action){
-                this.context.router.history.push('/')   
+                return <Redirect to='/' /> 
+                // this.context.router.history.push('/profile')   
             }
             return(
                 <Conmponent {...this.props} />
             )
         }   
     }
+
     Authenticate.contextTypes = {
         router: PropTypes.object.isRequired
     }

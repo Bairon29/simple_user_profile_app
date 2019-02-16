@@ -7,14 +7,14 @@ const mongoose = require('mongoose');
 const port = process.env.PORT || 5100;
 
 var users = require('./routes/Users');
-const TWO_HOURS = 1000 * 60 * 60 * 24;
+const TWENTY_HOURS = 1000 * 60 * 60 * 24;
 
 const {
     NODE_ENV = 'devlopement',
 
     SESS_NAME = 'sid',
     SESS_SECRET = 'secret',
-    SESS_LIFETIME = TWO_HOURS
+    SESS_LIFETIME = TWENTY_HOURS
 } = process.env;
 
 const IN_PROP = NODE_ENV === 'production';

@@ -1,5 +1,6 @@
 import React from 'react';
-import {ERROR_MASSEGE, LOGGED_IN, url } from './AuthTypes';
+import {ERROR_MASSEGE, LOGIN_USER } from '../actions/types';
+import { url } from './AuthTypes'
 import { Redirect } from 'react-router-dom';
 
 export const checkStatus = (user) => {
@@ -18,9 +19,10 @@ export const checkStatus = (user) => {
             message: "Something went wrong, try again please"
         }
     } else if(user.token && user.email){
+        console.log('user logged')
         localStorage.setItem('Auth', JSON.stringify(user))
         statusMessage = {
-            type:  LOGGED_IN,
+            type:   LOGIN_USER,
             message: "SUCCESS"
         }
     } else {
@@ -33,7 +35,7 @@ export const checkStatus = (user) => {
 }
 
 export const wasLoginSuccessful = (user, props) =>{
-    if(user && user.type === LOGGED_IN){
+    if(user && user.type === LOGIN_USER){
         //dispatch to message
         console.log('right place')
         props.history.push('/profile')

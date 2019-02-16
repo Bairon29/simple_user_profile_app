@@ -32,9 +32,31 @@ import { url } from '../utils/AuthTypes'
 //         )
 // }
 
-export const SignInUser = (user_data) => {
+// export const SignInUser = (user_data) => {
+//     console.log('action called')
+//     return fetch(`${url}login`,{
+//             method: "POST",
+//             headers: {
+//                 'content-type': 'application/json'
+//             },
+//             body: JSON.stringify(user_data)
+//         })
+//         .then(res => res.json())
+//         .then(user => {
+//             // localStorage.setItem('Auth', JSON.stringify(user))
+//             // console.log('user',user);
+//             // dispatch({
+//             //     type: LOGIN_USER,
+//             //     payload: user
+//             // })
+//             return checkStatus(user);
+//         }).catch((err)=>console.log(err))
+// }
+
+
+export const SignInUser = (user_data) => (dispatch) => {
     console.log('action called')
-    return fetch(`${url}login`,{
+    fetch(`${url}login`,{
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -45,10 +67,13 @@ export const SignInUser = (user_data) => {
         .then(user => {
             // localStorage.setItem('Auth', JSON.stringify(user))
             // console.log('user',user);
-            // dispatch({
-            //     type: LOGIN_USER,
-            //     payload: user
-            // })
-            return checkStatus(user);
+            
+            var statusMessage = checkStatus(user);
+            dispatch({
+                type: statusMessage.type,
+                payload: user,
+                message: statusMessage.message
+            })
+            // if(statusMessage.type == )
         }).catch((err)=>console.log(err))
 }

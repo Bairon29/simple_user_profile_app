@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { SignInUser } from '../actions/userActions'
-import  {wasLoginSuccessful}  from '../utils/AuthenticationHelpers';
 import { connect } from 'react-redux'
 
 import  loginIcon from './images/login-icon.png'
 import userIcon from './images/username.png'
 import passIcon from './images/password.png'
+
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import LoaderButton from "./LoaderButton";
 
 class Login extends Component {
   constructor(){
@@ -13,16 +15,18 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      message: ''
+      message: '',
+      isLoading: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.loginMessage = this.loginMessage.bind(this);
   }
 
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
-  onSubmit(e){
+  async onSubmit(e){
     e.preventDefault();
 
     const user = {
@@ -31,15 +35,44 @@ class Login extends Component {
     }
     this.setState({
       email: '',
-      password: ''
+      password: '',
+      isLoading: true
     })
-    SignInUser(user).then(res => {
-      wasLoginSuccessful(res, this.props);
+    try {
+      await this.props.SignInUser(user);
+    } catch (e) {
+      alert(e.message);
+      this.setState({ isLoading: false });
+    }
+    // this.props.SignInUser(user);
+  }
+  componentWillReceiveProps(nextProps){
+    console.log('next props', nextProps)
+    this.setState({
+      message: nextProps.message,
+      isLoading: false
     })
+  }
+  loginMessage(){
+    var message = "", classValue = "hide";
+    if(this.state.message !== "SUCCESS" && this.state.message !== ''){
+     console.log('wrong condiiton')
+      message = this.state.message
+      classValue = "danger";
+    } else {
+      classValue = "hide";
+    }
+    return (
+      <div className={classValue}>
+        <p>{message}</p>
+      </div>
+    )
   }
   render() {
     return (
         <div className="auth-session">
+
+          {this.loginMessage()}
           <div className="auth-container">
             <div className="auth-title">
               <h1>SIGN IN</h1>
@@ -54,8 +87,7 @@ class Login extends Component {
                       <img src={userIcon} />
                     </div>
                     <div className="auth-field-input">
-                      <input type="text" name="email" 
-                          value={this.state.title} 
+                      <input type="text" name="email"
                           placeholder="Sample@sample.com"
                           onChange={this.onChange}
                           required />
@@ -66,15 +98,20 @@ class Login extends Component {
                       <img src={passIcon} />
                     </div>
                     <div className="auth-field-input">
-                      <input type="password" name="password" 
-                          value={this.state.body} 
+                      <input type="password" name="password"
                           placeholder="Password"
                           onChange={this.onChange} 
                           required />
                     </div>
                 </div>
                 <div className="auth-submit">
-                  <button type="submit">Login</button>
+                <LoaderButton
+                    className="button"
+                    type="submit"
+                    isLoading={this.state.isLoading}
+                    text="Login"
+                    loadingText="Logging in…"
+                  />
                 </div>
               </form> 
             </div>
@@ -83,5 +120,10 @@ class Login extends Component {
     );
   }
 }
-
-export default connect(null, {wasLoginSuccessful})(Login);
+const mapStateToProps = state => {
+  return {
+      message: state.user.message,
+      user: state.user.user
+  }
+}
+export default connect(mapStateToProps, {SignInUser})(Login);
