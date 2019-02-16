@@ -1,4 +1,4 @@
-import { LOGIN_USER, UPDATE_USER } from './types';
+import { LOGIN_USER, UPDATE_USER, REGISTERED } from './types';
 import { checkStatus } from '../utils/AuthenticationHelpers';
 import { url } from '../utils/AuthTypes'
 
@@ -74,6 +74,36 @@ export const SignInUser = (user_data) => (dispatch) => {
                 payload: user,
                 message: statusMessage.message
             })
+            // if(statusMessage.type == )
+        }).catch((err)=>console.log(err))
+}
+
+export const RegisterUser = (user_data) => (dispatch) => {
+    console.log('register action called')
+    fetch(`${url}register`,{
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user_data)
+        })
+        .then(res => res.json())
+        .then(user => {
+            // localStorage.setItem('Auth', JSON.stringify(user))
+            // console.log('user',user);
+            
+            var statusMessage = checkStatus(user);
+            if(statusMessage.status){
+                dispatch({
+                    type: REGISTERED,
+                    message: statusMessage.message
+                })
+            } else{
+                dispatch({
+                    type: statusMessage.type,
+                    message: statusMessage.message
+                })
+            }
             // if(statusMessage.type == )
         }).catch((err)=>console.log(err))
 }

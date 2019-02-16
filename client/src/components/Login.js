@@ -28,7 +28,7 @@ class Login extends Component {
   }
   async onSubmit(e){
     e.preventDefault();
-
+    console.log('loginnnnn')
     const user = {
       email: this.state.email,
       password: this.state.password
@@ -39,6 +39,7 @@ class Login extends Component {
       isLoading: true
     })
     try {
+      console.log('loginnnnn')
       await this.props.SignInUser(user);
     } catch (e) {
       alert(e.message);
@@ -71,7 +72,6 @@ class Login extends Component {
   render() {
     return (
         <div className="auth-session">
-
           {this.loginMessage()}
           <div className="auth-container">
             <div className="auth-title">
@@ -120,6 +120,8 @@ class Login extends Component {
     );
   }
 }
+//do proptypes
+
 const mapStateToProps = state => {
   return {
       message: state.user.message,

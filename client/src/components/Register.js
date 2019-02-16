@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { SignInUser } from '../actions/userActions';
+import { RegisterUser } from '../actions/userActions';
 import { connect } from 'react-redux';
 import  loginIcon from './images/login-icon.png';
 import userIcon from './images/username.png';
 import passIcon from './images/password.png';
 import LoaderButton from "./LoaderButton";
 import LocationSelection from './LocationSelection';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 class Register extends Component {
   constructor(){
@@ -20,6 +22,7 @@ class Register extends Component {
       gender: '',
       state: '',
       city: '',
+      zipcode: 0,
       message: '',
       isLoading: false
     }
@@ -30,24 +33,71 @@ class Register extends Component {
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
-  onSubmit(e){
+  async onSubmit(e){
     e.preventDefault();
 
     const user = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      conform_password: this.state.conform_password,
+      gender: this.state.gender,
+      address: this.state.address,
+      state: this.state.state,
+      city: this.state.city,
+      zipcode: this.state.zipcode
     }
     this.setState({
+      first_name: '',
+      last_name: '',
       email: '',
-      password: ''
+      password: '',
+      conform_password: '',
+      address: '',
+      gender: '',
+      state: '',
+      city: '',
+      zipcode: 0,
+      isLoading: true
     })
-    // SignInUser(user).then(res => {
-    //   // wasLoginSuccessful(res, this.props);
-    // })
+    try {
+      await this.props.RegisterUser(user);
+    } catch (e) {
+      alert(e.message);
+      this.setState({ isLoading: false });
+    }
+    // this.props.SignInUser(user);
+  }
+  componentWillReceiveProps(nextProps){
+    console.log('next props', nextProps)
+    this.setState({
+      message: nextProps.message,
+      isLoading: false
+    })
+  }
+  registerMessage(){
+    var message = "", classValue = "hide";
+    if(this.state.message !== "SUCCESS" && this.state.message !== ''){
+     console.log('wrong condiiton')
+      message = this.state.message
+      classValue = "danger";
+    } else {
+      classValue = "hide";
+    }
+    return (
+      <div className={classValue}>
+        <p>{message}</p>
+      </div>
+    )
   }
   render() {
+    if(this.state.message === "Redirecting..."){
+      return <Redirect to='/' /> 
+    }
     return (
         <div className="auth-session">
+          {this.registerMessage()}
           <div className="auth-container auth-container-reg">
             <div className="auth-title">
               <h1>REGISTER</h1>
@@ -128,7 +178,9 @@ class Register extends Component {
                               <img src={passIcon} />
                             </div>
                             <div className="auth-field-input">
-                              <select name="gender" value={this.state.gender} onChange={this.onChange}>
+                              <select name="gender" 
+                                value={this.state.gender} 
+                                onChange={this.onChange}>
                                 <option value="" defaultValue disabled>Gender</option>
                                 <option value="Female">Female</option>
                                 <option value="Male">Male</option>
@@ -178,11 +230,12 @@ class Register extends Component {
                               <img src={passIcon} />
                             </div>
                             <div className="auth-field-input">
-                              <input type="text" name="zipcode" 
-                                  value={this.state.body} 
-                                  placeholder="Enter Zipcode"
-                                  onChange={this.onChange} 
-                                  required />
+                              <input name="zipcode" type="text" 
+                                     inputMode="numeric" 
+                                     placeholder="Enter Zipcode"
+                                     onChange={this.onChange} 
+                                     required 
+                                     />
                             </div>
                         </div>
                         <div className="auth-submit">
@@ -207,4 +260,10 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => {
+  return {
+      message: state.user.message
+  }
+}
+
+export default connect(mapStateToProps, {RegisterUser})(Register);

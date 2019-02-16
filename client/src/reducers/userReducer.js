@@ -1,4 +1,9 @@
-import {LOGIN_USER, UPDATE_USER, ERROR_MASSEGE } from '../actions/types';
+import {
+    LOGIN_USER, 
+    UPDATE_USER, 
+    ERROR_MASSEGE, 
+    REGISTERED 
+} from '../actions/types';
 
 const initialState = {
     user: {},
@@ -22,6 +27,7 @@ export default function(state = initialState, action){
                 ...state,
                 user: action.payload
             }
+        case REGISTERED:
         case ERROR_MASSEGE:
             console.log('conveing message')
             return {

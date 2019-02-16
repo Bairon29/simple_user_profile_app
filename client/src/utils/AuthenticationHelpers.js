@@ -1,5 +1,5 @@
 import React from 'react';
-import {ERROR_MASSEGE, LOGIN_USER } from '../actions/types';
+import {ERROR_MASSEGE, LOGIN_USER, REGISTERED } from '../actions/types';
 import { url } from './AuthTypes'
 import { Redirect } from 'react-router-dom';
 
@@ -8,15 +8,27 @@ export const checkStatus = (user) => {
         type: '',
         message: ''
     }
-    if(user.error && user.status === 'User does not exists'){
+    if(user.error && user.error === 'User does not exists'){
         statusMessage = {
             type:  ERROR_MASSEGE,
             message: "Your credential are incorrect"
         }
-    } else if(user.error){
+    } else if(user.error && user.error === 'User already exists'){
         statusMessage = {
             type:  ERROR_MASSEGE,
-            message: "Something went wrong, try again please"
+            message: "User already exists",
+            registered: false
+        }
+    } else if(user.error && user.error === 'User already exists'){
+        statusMessage = {
+            type:  ERROR_MASSEGE,
+            message: "User already exists",
+            registered: false
+        }
+    } else if(user.status && user.status.split(' ')[0] === 'registered'){
+        statusMessage = {
+            type:  REGISTERED,
+            message: user.status
         }
     } else if(user.token && user.email){
         console.log('user logged')
@@ -28,7 +40,7 @@ export const checkStatus = (user) => {
     } else {
         statusMessage = {
             type:  ERROR_MASSEGE,
-            message: "Your credential are incorrect"
+            message: "Redirecting..."
         }
     }
     return statusMessage;
