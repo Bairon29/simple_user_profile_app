@@ -13,11 +13,11 @@ class App extends Component {
     return (
         <div className="App">
           <Route exact path="/" component={isLoggedInAuth(Login)} />
-          <div className="container">
+          {/* <div className="container"> */}
             <Route exact path="/register" component={isLoggedInAuth(Register)} />
             <Route exact path="/profile" component={UserAuth(Profile)} />
             {/* <Route exact path="**" component={Login} /> */}
-          </div>
+          {/* </div> */}
         </div>
     );
   }

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import SideMenu from './SideMenu';
 
+import './css/Profile.css';
 
 class Profile extends Component {
   render() {
     return (
-        <div>
-          <h1>Profile Component</h1>
+        <div className="profile-container">
+          <SideMenu />
         </div>
     );
   }
