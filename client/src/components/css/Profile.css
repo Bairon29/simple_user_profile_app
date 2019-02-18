@@ -1,0 +1,110 @@
+.main-side-menu{
+  width: 100%;
+  height: 100vh;
+}
+/* Horizontal Menu */
+
+.main-side-menu .horizon-menu{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+}
+.main-side-menu .horizon-menu .icon-logo{
+  display: flex;
+  flex-grow: 3;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rebeccapurple;
+}
+
+.main-side-menu .horizon-menu .icon-logo .menu-icon,
+.main-side-menu .horizon-menu .icon-logo .logo{
+  padding: 10px;
+  margin: 0 20px;
+}
+.main-side-menu .horizon-menu .icon-logo .menu-icon{
+  font-size: 180%;
+  font-weight: bold;
+  cursor: pointer;
+}
+.main-side-menu .horizon-menu .icon-logo .logo{
+  margin: 0;
+  cursor: pointer;
+}
+.main-side-menu .horizon-menu .log-out{
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: yellow;
+}
+.main-side-menu .horizon-menu .log-out a{
+  padding: 20px;
+  margin: 0 15px;
+  font-size: 140%;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 1s;
+}
+
+.main-side-menu .horizon-menu .log-out a:hover{
+  background-color: chocolate;
+}
+/* End of Horizontal Menu */
+
+/* Strictly for side menu */
+.side-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .side-menu a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 1s;
+  }
+  .side-menu .menu-option {
+    padding: 2px 2px 2px 8px;
+    text-decoration: none;
+    font-size: 5px;
+    color: #818181;
+    opacity: .4;
+    display: none;
+    transition: 1s;
+  }
+
+  .side-menu .option:hover {
+    background-color: blueviolet;
+  }
+
+  .side-menu a:hover {
+    color: #f1f1f1;
+  }
+  
+  .side-menu .close-btn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .side-menu {padding-top: 15px;}
+    .side-menu a {font-size: 18px;}
+  }
+/* End of Strictly for side menu*/
