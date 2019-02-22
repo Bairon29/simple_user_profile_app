@@ -32,7 +32,8 @@ export const checkStatus = (user) => {
         }
     } else if(user.token && user.email){
         console.log('user logged')
-        localStorage.setItem('Auth', JSON.stringify(user))
+        sessionStorage.setItem('Auth', JSON.stringify(user));
+        // localStorage.setItem('Auth', JSON.stringify(user))
         statusMessage = {
             type:   LOGIN_USER,
             message: "SUCCESS"
@@ -53,7 +54,8 @@ export const wasLoginSuccessful = (user, props) =>{
         props.history.push('/profile')
     } else {
         if(localStorage.getItem('Auth')){
-            localStorage.removeItem('Auth');
+            // localStorage.removeItem('Auth');
+            sessionStorage.removeItem('Auth');
         }
         ////dispatch to message
         props.history.push('/')
@@ -62,7 +64,8 @@ export const wasLoginSuccessful = (user, props) =>{
 
 export const grandPassage = (component) =>{
     if(localStorage.getItem('Auth')){
-       var AUTH = localStorage.getItem('Auth');
+    //    var AUTH = localStorage.getItem('Auth');
+       var AUTH = sessionStorage.getItem('Auth');
        let user = JSON.parse(AUTH);
        fetch(`${url}hasAccess`,{
         method: "POST",

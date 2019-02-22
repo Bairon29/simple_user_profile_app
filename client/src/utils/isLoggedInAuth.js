@@ -7,8 +7,10 @@ export default function (Conmponent) {
 
         render () {
             var action = null;
-            if(localStorage.getItem('Auth')){
-                var AUTH = localStorage.getItem('Auth');
+            // if(localStorage.getItem('Auth')){
+            if(sessionStorage.getItem('Auth')){
+                // var AUTH = localStorage.getItem('Auth');
+                var AUTH = sessionStorage.getItem('Auth');
                 let user = JSON.parse(AUTH);
                 action = user.token ? true : false;
             } else{

@@ -4,6 +4,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
+console.log(`ENV: ${process.env.SESS_SECRET}`);
 const port = process.env.PORT || 5100;
 
 var users = require('./routes/Users');
