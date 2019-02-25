@@ -1,8 +1,35 @@
 import React, { Component } from 'react';
 import tempIMG from './images/username.png';
 import linked from './images/linkedIn.png';
+import LoaderButton from "./LoaderButton";
+import LocationSelection from './LocationSelection';
 
 class MeBox extends Component {
+    constructor(){
+        super();
+        this.state = {
+            first_name: '',
+            last_name: '',
+            email: '',
+            address: '',
+            gender: '',
+            state: '',
+            city: '',
+            zipcode: 0,
+            bio: '',
+            linkedIn: '',
+            job_title: '',
+            image: '',
+            message: '',
+            isLoading: false
+          }
+
+        this.onChange = this.onChange.bind(this);
+    }
+    
+    onChange(e){
+        this.setState({[e.target.name]: e.target.value})
+    }
   render() {
     return (
         <div className="mebox-container">
@@ -36,20 +63,22 @@ class MeBox extends Component {
                         <form>
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label for="first_name">First Name</label>
+                                    <label htmlFor="first_name">First Name</label>
                                     <div className="input-box-general">
                                         <input type="text" name="first_name"
                                             placeholder="First Name"
-                                            // onChange={this.onChange}
+                                            value={this.state.first_name}
+                                            onChange={this.onChange}
                                             required />
                                         </div>
                                 </div>
                                 <div className="label-input-general">
-                                    <label for="last_name">Last Name</label>
+                                    <label htmlFor="last_name">Last Name</label>
                                     <div className="input-box-general">
                                         <input type="text" name="last_name"
                                             placeholder="Last Name"
-                                            // onChange={this.onChange}
+                                            value={this.state.last_name}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
@@ -57,20 +86,22 @@ class MeBox extends Component {
 
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label for="email">Email</label>
+                                    <label htmlFor="email">Email</label>
                                     <div className="input-box-general">
                                         <input type="email" name="email"
                                             placeholder="Sample@sample.com"
-                                            // onChange={this.onChange}
+                                            value={this.state.email}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
                                 <div className="label-input-general">
-                                    <label for="job_title">Job Title</label>
+                                    <label htmlFor="job_title">Job Title</label>
                                     <div className="input-box-general">
                                         <input type="text" name="job_title"
                                             placeholder="Web Developer"
-                                            // onChange={this.onChange}
+                                            value={this.state.job_title}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
@@ -78,11 +109,12 @@ class MeBox extends Component {
 
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label for="linkedin">LinkedIn</label>
+                                    <label htmlFor="linkedin">LinkedIn</label>
                                     <div className="input-box-general">
                                         <input type="text" name="linkedin"
                                             placeholder="LinkedIn Address"
-                                            // onChange={this.onChange}
+                                            value={this.state.linkedIn}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
@@ -90,11 +122,11 @@ class MeBox extends Component {
 
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label for="bio">Bio</label>
+                                    <label htmlFor="bio">Bio</label>
                                     <div className="text-box-general">
                                         <textarea type="text" name="bio"
-                                            placeholder="BIO"
-                                            // onChange={this.onChange}
+                                            value={this.state.bio}
+                                            onChange={this.onChange}
                                             required > </textarea>
                                     </div>
                                 </div>
@@ -102,11 +134,12 @@ class MeBox extends Component {
 
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label for="address">Address</label>
+                                    <label htmlFor="address">Address</label>
                                     <div className="input-box-general">
                                         <input type="text" name="address"
                                             placeholder="123 West 12 St."
-                                            // onChange={this.onChange}
+                                            value={this.state.address}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
@@ -114,35 +147,44 @@ class MeBox extends Component {
 
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label for="first_name">State</label>
+                                    <label htmlFor="state">State</label>
                                     <div className="input-box-general">
-                                        <input type="text" name="first_name"
-                                            placeholder="First Name"
-                                            // onChange={this.onChange}
-                                            required />
+                                        <LocationSelection 
+                                            val={this.state.state}
+                                            loc="state" 
+                                            state_for_city=""
+                                            onChange={this.onChange} />
                                     </div>
                                 </div>
                                 <div className="label-input-general">
-                                    <label for="first_name">City</label>
+                                    <label htmlFor="city">City</label>
                                     <div className="input-box-general">
-                                        <input type="text" name="first_name"
-                                            placeholder="First Name"
-                                            // onChange={this.onChange}
-                                            required />
+                                        <LocationSelection 
+                                            val={this.state.city}
+                                            loc="city" 
+                                            state_for_city={this.state.state}
+                                            onChange={this.onChange} />
                                     </div>
                                 </div>
                                 <div className="label-input-general">
-                                    <label for="zipcode">Zipcode</label>
+                                    <label htmlFor="zipcode">Zipcode</label>
                                     <div className="input-box-general">
                                         <input type="number" name="zipcode"
                                             placeholder="12121"
-                                            // onChange={this.onChange}
+                                            value={this.state.zipcode}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
                             </div>
                             <div className="btn-general">
-                                <button type="submit">Confirm Changes</button>
+                                <LoaderButton
+                                    className="button"
+                                    type="submit"
+                                    isLoading={this.state.isLoading}
+                                    text="Register"
+                                    loadingText="Validating…"
+                                    />
                             </div>
                         </form>
                     </div>

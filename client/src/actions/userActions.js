@@ -52,6 +52,35 @@ import { url } from '../utils/AuthTypes'
 //             return checkStatus(user);
 //         }).catch((err)=>console.log(err))
 // }
+// headers: {
+//     'Content-Type': 'application/json',
+//     'Authorization': 'JWT fefege...'
+// },
+export const profileInfo = () => (dispatch) => {
+    console.log('profile called')
+    var AUTH = sessionStorage.getItem('Auth');
+    let user = JSON.parse(AUTH);
+    fetch(`${url}profile`,{
+            method: "POST",
+            headers: {
+                'content-type': 'application/json',
+                'authorization': user.token
+            }
+        })
+        .then(res => res.json())
+        .then(user => {
+            // localStorage.setItem('Auth', JSON.stringify(user))
+            // console.log('user',user);
+            
+            var statusMessage = checkStatus(user);
+            dispatch({
+                type: statusMessage.type,
+                payload: user,
+                message: statusMessage.message
+            })
+            // if(statusMessage.type == )
+        }).catch((err)=>console.log(err))
+}
 
 
 export const SignInUser = (user_data) => (dispatch) => {

@@ -43,6 +43,18 @@ const UserSchema = new Schema({
     zipcode: {
         type: Number
     },
+    bio: {
+        type: String
+    },
+    linkedIn: {
+        type: String
+    },
+    job_title: {
+        type: String
+    },
+    image: {
+        type: String
+    },
     created: {
         type: Date,
         default: Date.now
