@@ -29,7 +29,7 @@ class LocationSelection extends Component {
         }
         var sortedLocation = new Array(...onlyState.keys()).sort();
         let stateList = sortedLocation.map((key) => {
-            console.log("State and Cities", this.props.selected, key)
+            // console.log("State and Cities", this.props.selected, key)
             return <option key={key} value={key}>{key}</option>
         });
         return stateList;

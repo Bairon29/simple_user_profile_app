@@ -27,6 +27,7 @@ class MeBox extends Component {
           }
 
         this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     async onSubmit(e){
@@ -36,7 +37,7 @@ class MeBox extends Component {
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           email: this.state.email,
-          address: this.state.email,
+          address: this.state.address,
           gender: this.state.gender,
           state: this.state.state,
           city: this.state.city,
@@ -60,6 +61,7 @@ class MeBox extends Component {
         //   isLoading: true
         // })
         try {
+            console.log('submiting form')
           await this.props.updateUserInfo(user);
         } catch (e) {
           alert(e.message);
@@ -71,7 +73,7 @@ class MeBox extends Component {
       UNSAFE_componentWillReceiveProps(nextProps, nextState){
         console.log('next props', nextState)
         this.setState({
-            first_name: nextProps.first_name || "MY",
+            first_name: nextProps.first_name,
             last_name: nextProps.last_name,
             email: nextProps.email,
             address: nextProps.address,
@@ -80,9 +82,9 @@ class MeBox extends Component {
             city: nextProps.city,
             zipcode: nextProps.zipcode,
             bio: nextProps.bio,
-            linkedIn: nextProps.linkedIn,
-            job_title: nextProps.job_title,
-            image: nextProps.image,
+            linkedIn: nextProps.linkedIn || "",
+            job_title: nextProps.job_title || "",
+            image: nextProps.image || "",
             message: nextProps.message,
             isLoading: false
         })
@@ -131,7 +133,7 @@ class MeBox extends Component {
                 <div className="general-mebox">
                     <h1 className="title-genaral">Account Details</h1>
                     <div className="form-general">
-                        <form>
+                        <form onSubmit={this.onSubmit}>
                             <div className="field-general">
                                 <div className="label-input-general">
                                     <label htmlFor="first_name">First Name</label>
@@ -171,8 +173,8 @@ class MeBox extends Component {
                                     <div className="input-box-general">
                                         <input type="text" name="job_title"
                                             placeholder="Web Developer"
-                                            // value={this.state.job_title}
-                                            defaultValue={this.state.job_title}
+                                            value={this.state.job_title}
+                                            onChange={this.onChange}
                                             required />
                                     </div>
                                 </div>
@@ -180,9 +182,9 @@ class MeBox extends Component {
 
                             <div className="field-general">
                                 <div className="label-input-general">
-                                    <label htmlFor="linkedin">LinkedIn</label>
+                                    <label htmlFor="linkedIn">LinkedIn</label>
                                     <div className="input-box-general">
-                                        <input type="text" name="linkedin"
+                                        <input type="text" name="linkedIn"
                                             placeholder="LinkedIn Address"
                                             value={this.state.linkedIn}
                                             onChange={this.onChange}
@@ -282,7 +284,7 @@ const mapStateToProps = state => {
         bio: state.user.user.bio,
         linkedIn: state.user.user.linkedIn,
         job_title: state.user.user.job_title,
-        image: state.user.user.image || "",
+        image: state.user.user.image,
         message: state.user.user.message
     }
   }

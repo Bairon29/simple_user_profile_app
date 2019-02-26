@@ -86,14 +86,14 @@ users.post('/hasAccess', (req, res) => {
 });
 
 users.post('/profile', (req, res) => {
-    console.log('getting profile data')
+    // console.log('getting profile data')
     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
-    console.log('email: ', decoded.email)
+    // console.log('email: ', decoded.email)
     User.findOne({
         email: decoded.email
     }, "-password -_id -created -__v").then(user => {
         if(user && user._id === req.session._id){
-            console.log('found user', user)
+            // console.log('found user', user)
             res.json({user: user, status: "Retrieving User Info"});
         } else {
             res.json({error: "User does not exists"})
@@ -122,27 +122,29 @@ users.post('/update', (req, res) => {
     console.log('email: ', decoded.email)
     User.findOne({
         email: decoded.email
-    }, "-password -_id -created -__v").then(user => {
-
-        user.first_name = req.body.first_name,
-        user.last_name = req.body.last_name,
-        user.email = req.body.email,
-        user.gender = req.body.gender,
-        user.address = req.body.address,
-        user.city = req.body.city,
-        user.state = req.body.state,
-        user.zipcode = req.body.zipcode,
-        user.bio = req.body.bio,
-        user.linkedIn = req.body.linkedIn,
-        user.job_title = req.body.job_title
+    }, "-password").then(user => {
+        console.log('updating user');
+        user.first_name = userData.first_name,
+        user.last_name = userData.last_name,
+        user.email = userData.email,
+        user.gender = userData.gender,
+        user.address = userData.address,
+        user.city = userData.city,
+        user.state = userData.state,
+        user.zipcode = userData.zipcode,
+        user.bio = userData.bio,
+        user.linkedIn = userData.linkedIn,
+        user.job_title = userData.job_title
+        console.log('got hereeeee')
         user.save(function (err, product) {
             if (err){
                 res.json({error: "Something went wrong "+ err});
             }
-            if(user && user._id === req.session._id){
-                console.log('found user', user)
-                res.json({user: user, status: "Updated User Info"});
+            if(product && product._id.equals(decoded._id)){
+                console.log('found user', product)
+                res.json({user: product, status: "Updated User Info"});
             } else {
+                // console.log('found user', product._id.equals(decoded._id));
                 res.json({error: "User does not exists"})
             }
         });

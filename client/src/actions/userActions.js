@@ -57,7 +57,7 @@ import { url } from '../utils/AuthTypes'
 //     'Authorization': 'JWT fefege...'
 // },
 export const profileInfo = () => (dispatch) => {
-    console.log('profile called')
+    // console.log('profile called')
     var AUTH = sessionStorage.getItem('Auth');
     let user = JSON.parse(AUTH);
     fetch(`${url}profile`,{
@@ -83,10 +83,10 @@ export const profileInfo = () => (dispatch) => {
 }
 
 export const updateUserInfo = (user_data) => (dispatch) => {
-    console.log('profile called')
+    console.log('update called')
     var AUTH = sessionStorage.getItem('Auth');
     let user = JSON.parse(AUTH);
-    fetch(`${url}profile`,{
+    fetch(`${url}update`,{
             method: "POST",
             headers: {
                 'content-type': 'application/json',
