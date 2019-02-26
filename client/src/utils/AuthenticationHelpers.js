@@ -1,5 +1,5 @@
 import React from 'react';
-import {ERROR_MASSEGE, LOGIN_USER, REGISTERED } from '../actions/types';
+import {ERROR_MASSEGE, LOGIN_USER, REGISTERED, USER_INFO, UPDATE_USER } from '../actions/types';
 import { url } from './AuthTypes'
 import { Redirect } from 'react-router-dom';
 
@@ -29,6 +29,19 @@ export const checkStatus = (user) => {
         statusMessage = {
             type:  REGISTERED,
             message: user.status
+        }
+    } else if(user.status && user.status === "Retrieving User Info"){
+        console.log('user Info');
+        statusMessage = {
+            type:   USER_INFO,
+            message: "SUCCESS"
+        }
+    } else if(user.status && user.status === "Updated User Info"){
+        console.log('user Updaate');
+        
+        statusMessage = {
+            type:   UPDATE_USER,
+            message: "SUCCESS"
         }
     } else if(user.token && user.email){
         console.log('user logged')

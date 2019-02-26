@@ -17,7 +17,8 @@
 .mebox-title h1,
 .desc-mebox .desc-title h4,
 .general-mebox .title-genaral,
-.field-general .label-input-general label{
+.field-general .label-input-general label,
+.names-mebox h4{
   color: rgb(17, 103, 131);
 }
 

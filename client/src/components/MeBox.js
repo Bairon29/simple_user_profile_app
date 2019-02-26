@@ -3,6 +3,8 @@ import tempIMG from './images/username.png';
 import linked from './images/linkedIn.png';
 import LoaderButton from "./LoaderButton";
 import LocationSelection from './LocationSelection';
+import { connect } from 'react-redux';
+import { profileInfo, updateUserInfo } from '../actions/userActions';
 
 class MeBox extends Component {
     constructor(){
@@ -13,8 +15,8 @@ class MeBox extends Component {
             email: '',
             address: '',
             gender: '',
-            state: '',
-            city: '',
+            state: 'State',
+            city: 'City',
             zipcode: 0,
             bio: '',
             linkedIn: '',
@@ -26,7 +28,76 @@ class MeBox extends Component {
 
         this.onChange = this.onChange.bind(this);
     }
+
+    async onSubmit(e){
+        e.preventDefault();
     
+        const user = {
+          first_name: this.state.first_name,
+          last_name: this.state.last_name,
+          email: this.state.email,
+          address: this.state.email,
+          gender: this.state.gender,
+          state: this.state.state,
+          city: this.state.city,
+          zipcode: this.state.zipcode,
+          bio: this.state.bio,
+          linkedIn: this.state.linkedIn,
+          job_title: this.state.job_title,
+          image: this.state.image,
+        }
+        // this.setState({
+        //   first_name: '',
+        //   last_name: '',
+        //   email: '',
+        //   password: '',
+        //   conform_password: '',
+        //   address: '',
+        //   gender: '',
+        //   state: '',
+        //   city: '',
+        //   zipcode: 0,
+        //   isLoading: true
+        // })
+        try {
+          await this.props.updateUserInfo(user);
+        } catch (e) {
+          alert(e.message);
+          this.setState({ isLoading: false });
+        }
+        // this.props.SignInUser(user);
+      }
+      
+      UNSAFE_componentWillReceiveProps(nextProps, nextState){
+        console.log('next props', nextState)
+        this.setState({
+            first_name: nextProps.first_name || "MY",
+            last_name: nextProps.last_name,
+            email: nextProps.email,
+            address: nextProps.address,
+            gender: nextProps.gender,
+            state: nextProps.state,
+            city: nextProps.city,
+            zipcode: nextProps.zipcode,
+            bio: nextProps.bio,
+            linkedIn: nextProps.linkedIn,
+            job_title: nextProps.job_title,
+            image: nextProps.image,
+            message: nextProps.message,
+            isLoading: false
+        })
+      }
+    // getSnapshotBeforeUpdate(props, state) {
+    //     props.profileInfo();
+    //     return {
+    //         ...state
+    //       };
+    // }
+    // componentDidUpdate
+    
+    UNSAFE_componentWillMount(){
+        this.props.profileInfo();
+    }
     onChange(e){
         this.setState({[e.target.name]: e.target.value})
     }
@@ -100,8 +171,8 @@ class MeBox extends Component {
                                     <div className="input-box-general">
                                         <input type="text" name="job_title"
                                             placeholder="Web Developer"
-                                            value={this.state.job_title}
-                                            onChange={this.onChange}
+                                            // value={this.state.job_title}
+                                            defaultValue={this.state.job_title}
                                             required />
                                     </div>
                                 </div>
@@ -150,6 +221,7 @@ class MeBox extends Component {
                                     <label htmlFor="state">State</label>
                                     <div className="input-box-general">
                                         <LocationSelection 
+                                            selected={this.state.state}
                                             val={this.state.state}
                                             loc="state" 
                                             state_for_city=""
@@ -160,6 +232,7 @@ class MeBox extends Component {
                                     <label htmlFor="city">City</label>
                                     <div className="input-box-general">
                                         <LocationSelection 
+                                            selected={this.state.city}
                                             val={this.state.city}
                                             loc="city" 
                                             state_for_city={this.state.state}
@@ -195,4 +268,23 @@ class MeBox extends Component {
   }
 }
 
-export default MeBox;
+const mapStateToProps = state => {
+    console.log('user info entirely',state.user.user)
+    return {
+        first_name: state.user.user.first_name,
+        last_name: state.user.user.last_name,
+        email: state.user.user.email,
+        address: state.user.user.address,
+        gender: state.user.user.gender,
+        state: state.user.user.state,
+        city: state.user.user.city,
+        zipcode: state.user.user.zipcode,
+        bio: state.user.user.bio,
+        linkedIn: state.user.user.linkedIn,
+        job_title: state.user.user.job_title,
+        image: state.user.user.image || "",
+        message: state.user.user.message
+    }
+  }
+  
+export default connect(mapStateToProps, {profileInfo, updateUserInfo})(MeBox);

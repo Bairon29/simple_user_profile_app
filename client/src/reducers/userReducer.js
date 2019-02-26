@@ -2,7 +2,8 @@ import {
     LOGIN_USER, 
     UPDATE_USER, 
     ERROR_MASSEGE, 
-    REGISTERED 
+    REGISTERED,
+    USER_INFO
 } from '../actions/types';
 
 const initialState = {
@@ -23,9 +24,12 @@ export default function(state = initialState, action){
                 isLoading: false
             }
         case UPDATE_USER:
+        case USER_INFO:
+            console.log('reducer profile info');
             return {
                 ...state,
-                user: action.payload
+                user: action.user,
+                message: action.message
             }
         case REGISTERED:
         case ERROR_MASSEGE:

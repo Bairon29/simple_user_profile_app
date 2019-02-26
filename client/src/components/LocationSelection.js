@@ -29,13 +29,14 @@ class LocationSelection extends Component {
         }
         var sortedLocation = new Array(...onlyState.keys()).sort();
         let stateList = sortedLocation.map((key) => {
+            console.log("State and Cities", this.props.selected, key)
             return <option key={key} value={key}>{key}</option>
         });
         return stateList;
     }
     render() {
         return (
-        <select name={this.props.loc} value={this.props.val.toUpperCase()} onChange={this.props.onChange}>
+        <select name={this.props.loc} value={this.props.val} onChange={this.props.onChange}>
             <option value="" defaultValue disabled>{this.props.loc.capitalize()}</option>
             {this.states()}
         </select>

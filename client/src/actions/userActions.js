@@ -75,13 +75,39 @@ export const profileInfo = () => (dispatch) => {
             var statusMessage = checkStatus(user);
             dispatch({
                 type: statusMessage.type,
-                payload: user,
+                user: user.user,
                 message: statusMessage.message
             })
             // if(statusMessage.type == )
         }).catch((err)=>console.log(err))
 }
 
+export const updateUserInfo = (user_data) => (dispatch) => {
+    console.log('profile called')
+    var AUTH = sessionStorage.getItem('Auth');
+    let user = JSON.parse(AUTH);
+    fetch(`${url}profile`,{
+            method: "POST",
+            headers: {
+                'content-type': 'application/json',
+                'authorization': user.token
+            },
+            body: JSON.stringify(user_data)
+        })
+        .then(res => res.json())
+        .then(user => {
+            // localStorage.setItem('Auth', JSON.stringify(user))
+            // console.log('user',user);
+            
+            var statusMessage = checkStatus(user);
+            dispatch({
+                type: statusMessage.type,
+                user: user.user,
+                message: statusMessage.message
+            })
+            // if(statusMessage.type == )
+        }).catch((err)=>console.log(err))
+}
 
 export const SignInUser = (user_data) => (dispatch) => {
     console.log('action called')
