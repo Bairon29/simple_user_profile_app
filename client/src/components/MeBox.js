@@ -28,8 +28,11 @@ class MeBox extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.imgLoaded = this.imgLoaded.bind(this);
     }
-
+    imgLoaded(e){
+        console.log('image loaded')
+    }
     async onSubmit(e){
         e.preventDefault();
     
@@ -104,6 +107,16 @@ class MeBox extends Component {
         this.setState({[e.target.name]: e.target.value})
     }
   render() {
+      let link = this.state.linkedIn || "#";
+      let img = "";
+      if(!(this.state.image === "" 
+        || this.state.image === undefined 
+        || this.state.image === null
+        || this.state.image.length < 1)){
+            img = this.state.image;
+        } else{
+            img = tempIMG;
+        }
     return (
         <div className="mebox-container">
             <div className="mebox-title">
@@ -112,12 +125,13 @@ class MeBox extends Component {
             <div className="main-mebox">
                 <div className="just-mebox">
                     <div className="img-mebox">
-                        <img src={tempIMG}/>
+                        <input type="file" className="img-change-mebox" name="image" onChange={this.imgLoaded} />
+                        <img src={img}/>
                     </div>
                     <div className="names-mebox">
-                        <h1>Name</h1>
-                        <h4>Title</h4>
-                        <a className="social-mebox" href={"#"}>
+                        <h1>{this.state.first_name + " " + this.state.last_name}</h1>
+                        <h4>{this.state.job_title}</h4>
+                        <a className="social-mebox" href={link} target="_blank" >
                             <img src={linked} />
                             LinkedIn Profile
                         </a>
@@ -126,7 +140,7 @@ class MeBox extends Component {
                         <div className="desc-title">
                             <h4>Biography</h4>
                         </div>
-                        <p>Whether a medieval typesetter chose to garble a well-known (but non-Biblical—that would have been sacrilegious) text, or whether a quirk in the 1914 Loeb Edition inspired a graphic designer, it's admittedly an odd way for Cicero to sail into the 21st century.</p>
+                        <p>{this.state.bio}</p>
                     </div>
                 </div>
 
