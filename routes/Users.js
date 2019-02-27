@@ -3,8 +3,34 @@ const users = express.Router();
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
 
 const User = require('../models/User');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, 'images/');
+    },
+    filename: function(req, file, cb){
+        cb(null, new Date().toISOString() + file.originalname)
+    }
+});
+
+const filterFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: filterFilter
+});
 
 users.post('/register', (req, res) => {
     const today = new Date();
@@ -76,13 +102,16 @@ users.post('/login', (req, res) => {
     })
 });
 
-users.post('/hasAccess', (req, res) => {
-    console.log('on access', req.session.token === req.body.token)
-   if(req.session.token === req.body.token){
-       res.json({status: true});
-   } else {
+users.post('/uploadPhoto', upload.single('image'), (req, res) => {
+    console.log('uploading ')
+    console.log(req.file)
+    console.log(req.body)
+//     console.log('on access', req.session.token === req.body.token)
+//    if(req.session.token === req.body.token){
+//        res.json({status: true});
+//    } else {
     res.json({status: false})
-   }
+//    }
 });
 
 users.post('/profile', (req, res) => {

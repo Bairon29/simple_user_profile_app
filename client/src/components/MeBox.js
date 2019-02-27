@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import tempIMG from './images/username.png';
 import linked from './images/linkedIn.png';
+import edit from './images/edit.png';
 import LoaderButton from "./LoaderButton";
 import LocationSelection from './LocationSelection';
 import { connect } from 'react-redux';
-import { profileInfo, updateUserInfo } from '../actions/userActions';
+import { profileInfo, updateUserInfo, uploadPhoto } from '../actions/userActions';
 
 class MeBox extends Component {
     constructor(){
@@ -29,9 +30,20 @@ class MeBox extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.imgLoaded = this.imgLoaded.bind(this);
+        this.formSubmit = this.formSubmit.bind(this);
+    }
+
+    formSubmit(e){
+        e.preventDefault();
+        console.log(e, 'submmitteeeedd');
+        uploadPhoto(e.target.files[0]);
+       
+        // uploadPhoto(e.target.files[0]);
     }
     imgLoaded(e){
-        console.log('image loaded')
+        // console.log('image loaded', e.target.files)
+        var form = document.getElementById('frmUploader');
+        form.submit();
     }
     async onSubmit(e){
         e.preventDefault();
@@ -125,7 +137,17 @@ class MeBox extends Component {
             <div className="main-mebox">
                 <div className="just-mebox">
                     <div className="img-mebox">
-                        <input type="file" className="img-change-mebox" name="image" onChange={this.imgLoaded} />
+                        <label htmlFor="image" className="custom-file-upload">
+                            {/* <i className="fa fa-cloud-upload"></i> Custom Upload */}
+                            <img src={edit} />
+                        </label>
+                        <form id="frmUploader" 
+                            encType="multipart/form-data" method="post"
+                            ref="form" onSubmit={this.formSubmit} >
+                            <input id="image" name="image" 
+                                className="img-change-mebox" 
+                                type="file" onChange={this.imgLoaded} />
+                        </form>
                         <img src={img}/>
                     </div>
                     <div className="names-mebox">

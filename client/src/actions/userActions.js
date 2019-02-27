@@ -81,6 +81,56 @@ export const profileInfo = () => (dispatch) => {
             // if(statusMessage.type == )
         }).catch((err)=>console.log(err))
 }
+export const uploadPhoto = (file) => {
+    console.log('about to fetch upload', file)
+    var formData = new FormData();
+    formData.append('photo', {
+        uri : file.uri,
+        type: file.type,
+        name: file.fileName
+       });
+    fetch(`${url}uploadPhoto`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            // 'Content-Type':'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW', 
+            "Cache-Control": "no-cache"
+        },
+        "processData": false,
+        // "contentType": false,
+        // "mimeType": "multipart/form-data",
+        body: formData
+    })
+    .then((response) => response.json())
+    .then((data)=>{
+        console.log(data);
+        // this.setState({images: data.images, isLoading: false});
+        // this.props.updateImages(data.images);
+    })
+    // .catch(error => this.setState({ error, isLoading: false}));
+
+    // fetch(`${url}profile`,{
+    //         method: "POST",
+    //         headers: {
+    //             'content-type': 'application/json',
+    //             'authorization': user.token
+    //         }
+    //     })
+    //     .then(res => res.json())
+    //     .then(user => {
+    //         // localStorage.setItem('Auth', JSON.stringify(user))
+    //         // console.log('user',user);
+            
+    //         var statusMessage = checkStatus(user);
+    //         dispatch({
+    //             type: statusMessage.type,
+    //             user: user.user,
+    //             message: statusMessage.message
+    //         })
+    //         // if(statusMessage.type == )
+    //     }).catch((err)=>console.log(err))
+}
+
 
 export const updateUserInfo = (user_data) => (dispatch) => {
     console.log('update called')
