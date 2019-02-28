@@ -1,6 +1,7 @@
 import { LOGIN_USER, UPDATE_USER, REGISTERED } from './types';
 import { checkStatus } from '../utils/AuthenticationHelpers';
 import { url } from '../utils/AuthTypes'
+import axios from 'axios';
 
 // export function SignInUser (user_data) {
 //     return (dispatch) => {
@@ -82,25 +83,50 @@ export const profileInfo = () => (dispatch) => {
         }).catch((err)=>console.log(err))
 }
 export const uploadPhoto = (file) => {
-    console.log('about to fetch upload', file)
+
+    // const formData = new FormData();
+    // formData.append('image',file);
+    // const config = {
+    //     headers: {
+    //         'content-type': 'multipart/form-data'
+    //     }
+    // };
+    // axios.post(`${url}uploadPhoto`,formData)
+    //     .then((response) => {
+    //         // alert("The file is successfully uploaded");
+    //     }).catch((error) => {
+    // });
+    // console.log('about to fetch upload', file)
     var formData = new FormData();
-    formData.append('photo', {
-        uri : file.uri,
-        type: file.type,
-        name: file.fileName
-       });
-    fetch(`${url}uploadPhoto`, {
+    // formData.append('photo', {
+    //     uri : file.uri,
+    //     type: file.type,
+    //     name: file.fileName
+    //    });
+    formData.append('image', file, "myimg.png");
+    formData.append('name', "bairon");
+    let h = new Headers();
+    h.append('Accept', 'application/json');
+    let req = new Request(`${url}uploadPhoto`, {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            // 'Content-Type':'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW', 
-            "Cache-Control": "no-cache"
-        },
-        "processData": false,
-        // "contentType": false,
-        // "mimeType": "multipart/form-data",
+        headers: h,
+        mode: 'no-cors',
         body: formData
-    })
+    });
+    // fetch(`${url}uploadPhoto`, {
+    //     method: 'POST',
+    //     headers: {
+    //     //     'Accept': 'application/json',
+    //         // 'Content-Type':'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW', 
+    //         // "Cache-Control": "no-cache"
+    //         'Content-Type':'multipart/form-data', 
+    //     },
+    //     // "processData": false,
+    //     // "contentType": false,
+    //     // "mimeType": "multipart/form-data",
+    //     body: formData
+    // })
+    fetch(req)
     .then((response) => response.json())
     .then((data)=>{
         console.log(data);

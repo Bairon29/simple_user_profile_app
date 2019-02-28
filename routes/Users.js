@@ -17,11 +17,11 @@ const storage = multer.diskStorage({
 });
 
 const filterFilter = (req, file, cb) => {
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    // if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
         cb(null, true);
-    } else {
-        cb(null, false);
-    }
+    // } else {
+    //     cb(null, false);
+    // }
 }
 
 const upload = multer({
@@ -110,7 +110,8 @@ users.post('/uploadPhoto', upload.single('image'), (req, res) => {
 //    if(req.session.token === req.body.token){
 //        res.json({status: true});
 //    } else {
-    res.json({status: false})
+    // res.json({status: false})
+    res.redirect('http://localhost:3000/profile')
 //    }
 });
 

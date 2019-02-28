@@ -24,6 +24,7 @@ class MeBox extends Component {
             job_title: '',
             image: '',
             message: '',
+            m: '',
             isLoading: false
           }
 
@@ -34,16 +35,24 @@ class MeBox extends Component {
     }
 
     formSubmit(e){
+        // e.preventDefault();
         e.preventDefault();
-        console.log(e, 'submmitteeeedd');
-        uploadPhoto(e.target.files[0]);
-       
-        // uploadPhoto(e.target.files[0]);
+        console.log(e.target, 'submmitteeeedd');
+        uploadPhoto(this.state.m);
     }
     imgLoaded(e){
         // console.log('image loaded', e.target.files)
-        var form = document.getElementById('frmUploader');
-        form.submit();
+        // uploadPhoto(this.refs["form"]);
+
+        // console.log(this.refs)
+        // var form = document.getElementById('image');
+        // uploadPhoto(form.value);
+        // console.log('opoppop',form)
+        this.setState({
+            m: e.target.files[0]
+        })
+        var button = document.getElementById('btn');
+        button.click();
     }
     async onSubmit(e){
         e.preventDefault();
@@ -142,11 +151,17 @@ class MeBox extends Component {
                             <img src={edit} />
                         </label>
                         <form id="frmUploader" 
-                            encType="multipart/form-data" method="post"
-                            ref="form" onSubmit={this.formSubmit} >
+                            encType="multipart/form-data"
+                            ref="form" 
+                            // onSubmit={this.formSubmit} 
+                            action="users/uploadPhoto" method="POST" 
+                            >
                             <input id="image" name="image" 
                                 className="img-change-mebox" 
-                                type="file" onChange={this.imgLoaded} />
+                                type="file" 
+                                // onChange={this.imgLoaded} 
+                                />
+                            <input id="btn" type="submit" />
                         </form>
                         <img src={img}/>
                     </div>

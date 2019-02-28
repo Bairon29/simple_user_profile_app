@@ -22,7 +22,9 @@
   color: rgb(17, 103, 131);
 }
 
-
+#btn{
+  /* display: none; */
+}
 
 /* Mebox in profile */
 .mebox-container,
