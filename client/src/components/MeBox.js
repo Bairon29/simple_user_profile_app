@@ -36,23 +36,19 @@ class MeBox extends Component {
 
     formSubmit(e){
         // e.preventDefault();
-        e.preventDefault();
-        console.log(e.target, 'submmitteeeedd');
-        uploadPhoto(this.state.m);
+        // console.log(e.target, 'submmitteeeedd');
+        // var button = document.getElementById('btn');
+        // button.click();
+        this.refs["conform-handler"].classList.add("custom-file-handler");
+        this.refs["upload-handler"].classList.remove("custom-file-handler");
     }
     imgLoaded(e){
-        // console.log('image loaded', e.target.files)
-        // uploadPhoto(this.refs["form"]);
-
-        // console.log(this.refs)
-        // var form = document.getElementById('image');
-        // uploadPhoto(form.value);
-        // console.log('opoppop',form)
         this.setState({
             m: e.target.files[0]
         })
-        var button = document.getElementById('btn');
-        button.click();
+        console.log(this.refs)
+        this.refs["conform-handler"].classList.remove("custom-file-handler");
+        this.refs["upload-handler"].classList.add("custom-file-handler");
     }
     async onSubmit(e){
         e.preventDefault();
@@ -146,22 +142,31 @@ class MeBox extends Component {
             <div className="main-mebox">
                 <div className="just-mebox">
                     <div className="img-mebox">
-                        <label htmlFor="image" className="custom-file-upload">
+                        <label htmlFor="image" 
+                            ref="upload-handler"
+                            className="custom-file-upload">
                             {/* <i className="fa fa-cloud-upload"></i> Custom Upload */}
                             <img src={edit} />
+                        </label>
+                        <label htmlFor="btn" 
+                            ref="conform-handler"
+                            className="custom-file-conform custom-file-handler">
+                            {/* <i className="fa fa-cloud-upload"></i> Custom Upload */}
+                            Conform
                         </label>
                         <form id="frmUploader" 
                             encType="multipart/form-data"
                             ref="form" 
-                            // onSubmit={this.formSubmit} 
                             action="users/uploadPhoto" method="POST" 
                             >
                             <input id="image" name="image" 
                                 className="img-change-mebox" 
                                 type="file" 
-                                // onChange={this.imgLoaded} 
+                                onChange={this.imgLoaded} 
                                 />
-                            <input id="btn" type="submit" />
+                            <input type="submit" id="btn"
+                                className="img-change-mebox"
+                                onClick={this.formSubmit}  />
                         </form>
                         <img src={img}/>
                     </div>

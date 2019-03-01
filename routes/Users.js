@@ -17,11 +17,11 @@ const storage = multer.diskStorage({
 });
 
 const filterFilter = (req, file, cb) => {
-    // if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
         cb(null, true);
-    // } else {
-    //     cb(null, false);
-    // }
+    } else {
+        cb(null, false);
+    }
 }
 
 const upload = multer({
@@ -90,6 +90,8 @@ users.post('/login', (req, res) => {
                 })
                 req.session._id = payload._id;
                 req.session.token = token;
+                req.session.save();
+                
                 res.json({token, email: payload.email});
             } else {
                 res.json({error: "User does not exists"})
@@ -106,22 +108,42 @@ users.post('/uploadPhoto', upload.single('image'), (req, res) => {
     console.log('uploading ')
     console.log(req.file)
     console.log(req.body)
-//     console.log('on access', req.session.token === req.body.token)
-//    if(req.session.token === req.body.token){
-//        res.json({status: true});
-//    } else {
-    // res.json({status: false})
-    res.redirect('http://localhost:3000/profile')
-//    }
-});
 
-users.post('/profile', (req, res) => {
-    // console.log('getting profile data')
+
     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
     // console.log('email: ', decoded.email)
     User.findOne({
         email: decoded.email
-    }, "-password -_id -created -__v").then(user => {
+    }, "+image").then(user => {
+        console.log('updating user');
+        user.image = req.file.path;
+        console.log('got hereeeee')
+        user.save(function (err, product) {
+            if (err){
+                res.json({error: "Something went wrong "+ err});
+            }
+            if(product && product._id.equals(decoded._id)){
+                console.log('found user', product)
+                res.redirect('http://localhost:3000/profile')
+            } else {
+                // console.log('found user', product._id.equals(decoded._id));
+                res.json({error: "User does not exists"})
+            }
+        });
+    }).catch(err => {
+        res.json({error: err});
+    })
+});
+
+users.post('/profile', (req, res) => {
+    // console.log('getting profile data')
+    console.log('session id: ', req.session._id)
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
+    // console.log('email: ', decoded.email)
+    User.findOne({
+        email: decoded.email
+    }, "-password -created -__v").then(user => {
+        console.log(user)
         if(user && user._id === req.session._id){
             // console.log('found user', user)
             res.json({user: user, status: "Retrieving User Info"});
