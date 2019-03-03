@@ -2,9 +2,12 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+// var FileStore = require('session-file-store')(session);
 dotenv.config();
 console.log(`ENV: ${process.env.SESS_SECRET}`);
 const port = process.env.PORT || 5100;
@@ -22,24 +25,34 @@ const {
 
 const IN_PROP = NODE_ENV === 'production';
 
+app.use('/users/images',express.static('images'));
+app.use(bodyParser.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
+app.use(expressValidator());
+app.use(cookieParser());
+app.use(cors());
+
 app.use(session({
+    key: 'session.sid',
     name: SESS_NAME,
     resave: false,
+    secure: 'auto',
     saveUninitialized: false,
+    // store: new FileStore,
     secret: process.env.SESS_SECRET,
     cookie: {
         maxAge: SESS_LIFETIME,
         sameSite: true,
         secure: IN_PROP
     }
-}))
-app.use(bodyParser.json());
-app.use(cors());
-app.use(
-    bodyParser.urlencoded({
-        extended: false
-    })
-);
+    // secret: process.env.SESS_SECRET,
+    // resave: false,
+    // saveUninitialized: true
+}));
 
 const mongoURI = 'mongodb://localhost:27017/userprofiledata';
 

@@ -6,6 +6,7 @@ import LoaderButton from "./LoaderButton";
 import LocationSelection from './LocationSelection';
 import { connect } from 'react-redux';
 import { profileInfo, updateUserInfo, uploadPhoto } from '../actions/userActions';
+import { url } from '../utils/AuthTypes'
 
 class MeBox extends Component {
     constructor(){
@@ -43,12 +44,13 @@ class MeBox extends Component {
         this.refs["upload-handler"].classList.remove("custom-file-handler");
     }
     imgLoaded(e){
-        this.setState({
-            m: e.target.files[0]
-        })
-        console.log(this.refs)
-        this.refs["conform-handler"].classList.remove("custom-file-handler");
-        this.refs["upload-handler"].classList.add("custom-file-handler");
+        // this.setState({
+        //     m: e.target.files[0]
+        // })
+        // console.log(this.refs)
+        // this.refs["conform-handler"].classList.remove("custom-file-handler");
+        // this.refs["upload-handler"].classList.add("custom-file-handler");
+        this.props.uploadPhoto(e.target.files[0])
     }
     async onSubmit(e){
         e.preventDefault();
@@ -130,7 +132,7 @@ class MeBox extends Component {
         || this.state.image === undefined 
         || this.state.image === null
         || this.state.image.length < 1)){
-            img = this.state.image;
+            img = url + this.state.image;
         } else{
             img = tempIMG;
         }
@@ -340,9 +342,9 @@ const mapStateToProps = state => {
         bio: state.user.user.bio,
         linkedIn: state.user.user.linkedIn,
         job_title: state.user.user.job_title,
-        image: state.user.user.image,
+        image: state.user.image || state.user.user.image,
         message: state.user.user.message
     }
   }
   
-export default connect(mapStateToProps, {profileInfo, updateUserInfo})(MeBox);
+export default connect(mapStateToProps, {uploadPhoto, profileInfo, updateUserInfo})(MeBox);

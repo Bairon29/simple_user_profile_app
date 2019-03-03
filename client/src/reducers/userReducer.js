@@ -3,7 +3,8 @@ import {
     UPDATE_USER, 
     ERROR_MASSEGE, 
     REGISTERED,
-    USER_INFO
+    USER_INFO,
+    UPDATE_IMAGE
 } from '../actions/types';
 
 const initialState = {
@@ -22,6 +23,13 @@ export default function(state = initialState, action){
                 message: action.message,
                 isAuth: Object.keys(action.payload).length > 0  ? true : false,
                 isLoading: false
+            }
+        case UPDATE_IMAGE:
+            console.log('reducer image');
+            return {
+                ...state,
+                image: action.image,
+                message: action.message
             }
         case UPDATE_USER:
         case USER_INFO:

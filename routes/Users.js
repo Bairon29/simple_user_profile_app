@@ -70,6 +70,7 @@ users.post('/register', (req, res) => {
 });
 
 users.post('/login', (req, res) => {
+    // res.setHeader('Access-Control-Allow-Credentials', 'true');
     const userData = {
         email: req.body.email,
         password: req.body.password
@@ -88,19 +89,25 @@ users.post('/login', (req, res) => {
                 let token = jwt.sign(payload, process.env.SECRET_KEY, {
                     expiresIn: '24h'
                 })
-                req.session._id = payload._id;
+                req.session["_id"] = payload._id;
                 req.session.token = token;
-                req.session.save();
                 
-                res.json({token, email: payload.email});
+                req.session.save(function (err) {
+                    if (err) return next(err)
+                    console.log(req.session)
+                    console.log('storage',req.session.storage)
+                    res.send({token, email: payload.email});
+                    // res.setHeader('Content-Type', 'application/json');
+                    // res.end(JSON.stringify({token, email: payload.email}, null, 3));
+                  })
             } else {
-                res.json({error: "User does not exists"})
+                // res.json({error: "User does not exists"})
             }
         } else {
-            res.json({error: "User does not exists"})
+            // res.json({error: "User does not exists"})
         }
     }).catch( err => {
-        res.json({error: err});
+        // res.json({error: err});
     })
 });
 
@@ -108,7 +115,7 @@ users.post('/uploadPhoto', upload.single('image'), (req, res) => {
     console.log('uploading ')
     console.log(req.file)
     console.log(req.body)
-
+    console.log('headers',req.headers['authorization'])
 
     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
     // console.log('email: ', decoded.email)
@@ -124,7 +131,7 @@ users.post('/uploadPhoto', upload.single('image'), (req, res) => {
             }
             if(product && product._id.equals(decoded._id)){
                 console.log('found user', product)
-                res.redirect('http://localhost:3000/profile')
+                res.send({image: user.image, message: "Image Uploaded Successful"})
             } else {
                 // console.log('found user', product._id.equals(decoded._id));
                 res.json({error: "User does not exists"})
@@ -137,14 +144,14 @@ users.post('/uploadPhoto', upload.single('image'), (req, res) => {
 
 users.post('/profile', (req, res) => {
     // console.log('getting profile data')
-    console.log('session id: ', req.session._id)
+    console.log('session id: ', req.session["_id"])
     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
     // console.log('email: ', decoded.email)
     User.findOne({
         email: decoded.email
     }, "-password -created -__v").then(user => {
         console.log(user)
-        if(user && user._id === req.session._id){
+        if(user && user._id.equals(decoded._id)){
             // console.log('found user', user)
             res.json({user: user, status: "Retrieving User Info"});
         } else {

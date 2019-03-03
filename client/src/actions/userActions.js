@@ -1,4 +1,4 @@
-import { LOGIN_USER, UPDATE_USER, REGISTERED } from './types';
+import { LOGIN_USER, UPDATE_USER, REGISTERED, UPDATE_IMAGE } from './types';
 import { checkStatus } from '../utils/AuthenticationHelpers';
 import { url } from '../utils/AuthTypes'
 import axios from 'axios';
@@ -63,9 +63,10 @@ export const profileInfo = () => (dispatch) => {
     let user = JSON.parse(AUTH);
     fetch(`${url}profile`,{
             method: "POST",
+            // credentials: 'include',
             headers: {
                 'content-type': 'application/json',
-                'authorization': user.token
+                'authorization': user.token,
             }
         })
         .then(res => res.json())
@@ -82,7 +83,7 @@ export const profileInfo = () => (dispatch) => {
             // if(statusMessage.type == )
         }).catch((err)=>console.log(err))
 }
-export const uploadPhoto = (file) => {
+export const uploadPhoto = (file) => (dispatch) => {
 
     // const formData = new FormData();
     // formData.append('image',file);
@@ -103,37 +104,49 @@ export const uploadPhoto = (file) => {
     //     type: file.type,
     //     name: file.fileName
     //    });
+    var AUTH = sessionStorage.getItem('Auth');
+    let user = JSON.parse(AUTH);
     formData.append('image', file, "myimg.png");
     formData.append('name', "bairon");
-    let h = new Headers();
-    h.append('Accept', 'application/json');
-    let req = new Request(`${url}uploadPhoto`, {
-        method: 'POST',
-        headers: h,
-        mode: 'no-cors',
-        body: formData
-    });
-    // fetch(`${url}uploadPhoto`, {
+    // let req = new Request(`${url}uploadPhoto`, {
     //     method: 'POST',
-    //     headers: {
-    //     //     'Accept': 'application/json',
-    //         // 'Content-Type':'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW', 
-    //         // "Cache-Control": "no-cache"
-    //         'Content-Type':'multipart/form-data', 
-    //     },
-    //     // "processData": false,
-    //     // "contentType": false,
-    //     // "mimeType": "multipart/form-data",
+    //     headers: {'Accept': 'application/json', 'authorization': user.token},
+    //     mode: 'no-cors',
     //     body: formData
-    // })
-    fetch(req)
-    .then((response) => response.json())
+    // });
+    fetch(`${url}uploadPhoto`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            // 'Content-Type':'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW', 
+            // "Cache-Control": "no-cache"
+            'authorization': user.token,
+            // 'Content-Type':'multipart/form-data', 
+        },
+        // mode: 'no-cors',
+        // "processData": false,
+        // "contentType": false,
+        // "mimeType": "multipart/form-data",
+        body: formData
+    }).then((response) => response.json())
     .then((data)=>{
         console.log(data);
+        dispatch({
+            type: UPDATE_IMAGE,
+            image: data.image,
+            message: data.message
+        })
         // this.setState({images: data.images, isLoading: false});
         // this.props.updateImages(data.images);
     })
-    // .catch(error => this.setState({ error, isLoading: false}));
+    // fetch(req)
+    // .then((response) => response.json())
+    // .then((data)=>{
+    //     console.log(data);
+    //     // this.setState({images: data.images, isLoading: false});
+    //     // this.props.updateImages(data.images);
+    // })
+    .catch(error => console.log(error));
 
     // fetch(`${url}profile`,{
     //         method: "POST",
@@ -164,6 +177,7 @@ export const updateUserInfo = (user_data) => (dispatch) => {
     let user = JSON.parse(AUTH);
     fetch(`${url}update`,{
             method: "POST",
+            // credentials: 'include',
             headers: {
                 'content-type': 'application/json',
                 'authorization': user.token
@@ -189,6 +203,7 @@ export const SignInUser = (user_data) => (dispatch) => {
     console.log('action called')
     fetch(`${url}login`,{
             method: "POST",
+            // credentials: 'include',
             headers: {
                 'content-type': 'application/json'
             },
@@ -213,6 +228,7 @@ export const RegisterUser = (user_data) => (dispatch) => {
     console.log('register action called')
     fetch(`${url}register`,{
             method: "POST",
+            // credentials: 'include',
             headers: {
                 'content-type': 'application/json'
             },
