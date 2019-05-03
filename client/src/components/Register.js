@@ -254,6 +254,7 @@ class Register extends Component {
                 
               </div>
             </form>
+            <a href="/">Already have an account?</a>
           </div>
         </div>
     );
