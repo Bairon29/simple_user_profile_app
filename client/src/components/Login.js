@@ -114,6 +114,7 @@ class Login extends Component {
                   />
                 </div>
               </form> 
+              <a href="/register">Don't have an account Yet?</a>
             </div>
           </div>
         </div>
