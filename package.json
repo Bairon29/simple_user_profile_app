@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "nodemon rs server.js",
     "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
+  "engines": {
+    "node": "12.1.0"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Bairon29/simple_user_profile_app.git"

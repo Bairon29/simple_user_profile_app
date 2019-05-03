@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const app = express();
 const mongoose = require('mongoose');
+const path = require("path")
 const dotenv = require('dotenv');
 // var FileStore = require('session-file-store')(session);
 dotenv.config();
@@ -26,6 +27,7 @@ const {
 const IN_PROP = NODE_ENV === 'production';
 
 app.use('/users/images',express.static('images'));
+app.use(express.static(path.join(__dirname, "client", "build")))
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
@@ -54,7 +56,7 @@ app.use(session({
     // saveUninitialized: true
 }));
 
-const mongoURI = 'mongodb://localhost:27017/userprofiledata';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/userprofiledata';
 
 mongoose.connect(mongoURI, {useNewUrlParser: true})
 .then(() => console.log('MongoDB Connected'))
@@ -71,6 +73,9 @@ app.use('/users', users);
 //       res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 //     });
 // }
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 app.listen(port, () => {
     console.log('Server is running on port: ' + port);
